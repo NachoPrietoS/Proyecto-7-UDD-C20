@@ -1,34 +1,34 @@
 import { useReducer } from 'react';
 import GameContext from './GameContext';
 import GameReducer from './GameReducer';
+import axiosClient from '../../config/axios';
 
 const GameState = (props) => {
     const initialState = {
-        games: [
-            {
-                id: 0,
-                name: 'Juego 1',
-                price: 49990,
-            },
-            {
-                id: 1,
-                name: 'Juego 2',
-                price: 59990,
-            },
-            {
-                id: 2,
-                name: 'Juego 3',
-                price: 69990,
-            },
-        ]
+        games: [ ]
     }
 
     const [globalState, dispatch] = useReducer(GameReducer, initialState);
 
+    const getGames = async () => {
+        try {
+            const response = await axiosClient.get('/games');
+            console.log(response);
+
+            dispatch({
+                type: "OBTENER_JUEGOS",
+                payload: response.data.games
+            })
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
     return (
         <GameContext.Provider
             value={{
-                games: globalState.games
+                games: globalState.games,
+                getGames
             }}
         >
             {props.children}

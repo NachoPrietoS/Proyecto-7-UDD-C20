@@ -1,0 +1,9 @@
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #000000; /* Fondo negro */
+  color: #ffffff;            /* Texto blanco */
+  text-align: center;       /* Textos centrados */
+  min-height: 100vh;        /* Asegura que el fondo cubra toda la pantalla */
+  font-family: sans-serif;  /* Una fuente limpia para tu proyecto */
+}

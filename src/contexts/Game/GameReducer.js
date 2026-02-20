@@ -1,11 +1,12 @@
 const GameReducer = (globalState, action) => {
     switch (action.type) {
-        case value:
-            
-            break;
-    
+        case "OBTENER_JUEGOS":
+            return {
+                ...globalState,
+                games: action.payload
+            }
         default:
-            break;
+            return globalState;
     }
 }
 
