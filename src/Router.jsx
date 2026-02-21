@@ -7,6 +7,7 @@ import Login from "./components/Auth/Login";
 import GameList from "./components/Game/List/Index";
 import SingleGame from "./components/Game/Single/Index";
 import UserState from "./contexts/User/UserState";
+import AuthRoute from "./routes/Auth";
 
 const Router = () => {
     return (
@@ -16,10 +17,13 @@ const Router = () => {
                     <Routes>
                         <Route path="/" element={<Layout />}>
                             <Route index element={<Home />} />
-                            <Route path="/registro" element={<Register />} />
-                            <Route path="/iniciar-sesion" element={<Login />} />
                             <Route path="/games" element={<GameList />} />
                             <Route path="/games/:slug" element={<SingleGame />} />
+
+                            <Route path="/registro" element={<Register />} />
+                            <Route 
+                            path="/iniciar-sesion" 
+                            element={<AuthRoute component={Login} />} />
                         </Route>
                     </Routes>
                 </BrowserRouter>
