@@ -37,7 +37,7 @@ const Categories = () => {
             <Grid container spacing={4} justifyContent="center" alignItems="center">
                 {categories.map((cat) => (
                     /* Cambiamos Grid2 por Grid (item) */
-                    <Grid item xs={12} md={4} key={cat.title}>
+                    <Grid size xs={12} md={4} key={cat.title}>
                         <Card
                             sx={{
                                 backgroundColor: '#18181a',

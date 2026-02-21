@@ -5,7 +5,7 @@ import axiosClient from '../../config/axios';
 
 const GameState = (props) => {
     const initialState = {
-        games: [ ]
+        games: []
     }
 
     const [globalState, dispatch] = useReducer(GameReducer, initialState);
