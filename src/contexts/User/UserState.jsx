@@ -10,10 +10,12 @@ const UserState = (props) => {
             email: "",
             country: "",
             address: "",
-            zipcode: ""
+            zipcode: 0
         },
         cart: [],
-        authState: false
+        authStatus: false,
+        sessionUrl: null,
+        globalLoading: false
     };
 
     const [globalState, dispatch] = useReducer(UserReducer, initialState);
@@ -27,10 +29,10 @@ const UserState = (props) => {
                 type: "REGISTRO_EXITOSO",
                 payload: response.data
             })
-            return;
+            return true;
         } catch (error) {
             console.error('Error en el registro', error);
-            return error.response.data.message;
+            return false;
         }
     }
 
@@ -43,26 +45,60 @@ const UserState = (props) => {
                 type: "LOGIN_EXITOSO",
                 payload: token
             })
-            return;
+            return true;
         } catch (error) {
             console.error('Error en el login', error);
-            return error.response.data.message;
+            return false;
+        }
+    }
+
+    const verifyUser = async () => {
+        const token = localStorage.getItem('token');
+        if(token) {
+            axiosClient.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        } else {
+            delete axiosClient.defaults.headers.common['Authorization'];
+        }
+        try {
+            const response = await axiosClient.get('/users/verify-user');
+            dispatch({
+                type: "VERIFICAR_USUARIO",
+                payload: response.data.user
+            })
+        } catch (error) {
+            return;
         }
     }
 
     const logoutUser = async () => {
         dispatch({
-            type: "LOGOUT"
+            type: "CERRAR_SESION"
         })
+    }
+
+    const updateUser = async (form) => {
+        const token = localStorage.getItem('token');
+        if(token) {
+            axiosClient.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        } else {
+            delete axiosClient.defaults.headers.common['Authorization'];
+        }
+        await axiosClient.put('/users/update-user', form);
     }
 
     return (
         <UserContext.Provider
             value={{
-                user: initialState.currentUser,
+                currentUser: initialState.currentUser,
+                cart: globalState.cart,
+                authStatus: globalState.authStatus,
+                sessionUrl: globalState.sessionUrl,
+                globalLoading: globalState.globalLoading,
                 registerUser,
                 loginUser,
-                logoutUser
+                logoutUser,
+                verifyUser,
+                updateUser
             }}
         >
             {props.children}

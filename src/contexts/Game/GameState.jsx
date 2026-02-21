@@ -5,7 +5,16 @@ import axiosClient from '../../config/axios';
 
 const GameState = (props) => {
     const initialState = {
-        games: []
+        games: [],
+        currentGame: {
+            _id: null,
+            title: "",
+            description: "",
+            price: "",
+            platform: "",
+            img: "",
+            slug: ""
+        }
     }
 
     const [globalState, dispatch] = useReducer(GameReducer, initialState);
@@ -28,6 +37,7 @@ const GameState = (props) => {
         <GameContext.Provider
             value={{
                 games: globalState.games,
+                currentGame: globalState.currentGame,
                 getGames
             }}
         >
