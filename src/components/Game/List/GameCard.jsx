@@ -57,6 +57,7 @@ const GameCard = ({ game }) => {
                     fullWidth
                     component={Link}
                     to={`/games/${game.slug}`} // <-- Usamos el slug para la ruta
+                    state={{ game }} // <-- Pasamos el objeto completo para evitar otra consulta
                     variant="contained"
                     sx={{ backgroundColor: '#28f5e8', color: '#18181a', fontWeight: 'bold' }}
                 >
