@@ -24,29 +24,7 @@ const Header = () => {
                     </Button>
                 </Box>
 
-                {/* 2. Centro: Título del sitio */}
-                <Typography
-                    variant="h5"
-                    sx={{
-                        fontWeight: 'bold',
-                        textAlign: 'center',
-                        // Efecto de Gradiente
-                        background: 'linear-gradient(45deg, #18181a 30%, #3f51b5 90%)',
-                        WebkitBackgroundClip: 'text',
-                        WebkitTextFillColor: 'transparent',
-                        // Animación
-                        animation: 'pulse 2s infinite ease-in-out',
-                        '@keyframes pulse': {
-                            '0%': { transform: 'scale(1)' },
-                            '50%': { transform: 'scale(2)' },
-                            '100%': { transform: 'scale(1)' },
-                        },
-                    }}
-                >
-                    GAMES
-                </Typography>
-
-                {/* 3. Lado Derecho: Registro y Login */}
+                {/* 2. Lado Derecho: Registro y Login */}
                 <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end', gap: 2 }}>
                     <Button
                         component={Link}

@@ -1,9 +1,47 @@
+/* index.css */
+
+/* Reseteo básico y fondo con profundidad radial */
 body {
   margin: 0;
   padding: 0;
-  background-color: #000000; /* Fondo negro */
-  color: #ffffff;            /* Texto blanco */
-  text-align: center;       /* Textos centrados */
-  min-height: 100vh;        /* Asegura que el fondo cubra toda la pantalla */
-  font-family: sans-serif;  /* Una fuente limpia para tu proyecto */
+  box-sizing: border-box;
+  /* Gradiente radial: centro azul medianoche hacia negro en los bordes */
+  background: radial-gradient(circle at center, #1a1a2e 0%, #000000 100%);
+  background-attachment: fixed; /* Mantiene el fondo fijo al hacer scroll */
+  color: #ffffff;
+  font-family: 'Inter', 'Segoe UI', Roboto, sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Tipografía optimizada para títulos de juegos */
+h1, h2, h3 {
+  letter-spacing: -0.02em; /* Títulos más compactos y modernos */
+  margin: 0;
+}
+
+/* Espaciado para párrafos y textos de bienvenida */
+p {
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.8); /* Blanco suavizado para legibilidad */
+  margin-bottom: 1.5rem;
+}
+
+/* Contenedor principal para dar aire a los elementos del Home */
+.home-container {
+  padding: 4rem 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3rem; /* Espacio entre secciones del Home */
+}
+
+/* Estilo para las tarjetas de categorías (PlayStation, Xbox, etc) */
+.category-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.category-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 10px 30px rgba(40, 245, 232, 0.2);
 }

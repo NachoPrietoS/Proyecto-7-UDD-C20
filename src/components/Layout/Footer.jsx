@@ -8,7 +8,7 @@ const Footer = () => {
         <Box
             component="footer"
             sx={{
-                backgroundColor: '#598784',
+                backgroundColor: '#28f5e8',
                 color: 'white',
                 py: 4,
                 mt: 'auto',
@@ -23,7 +23,7 @@ const Footer = () => {
                     spacing={2}
                 >
                     {/* Copyright */}
-                    <Typography variant="body2" sx={{ color: 'white' }}>
+                    <Typography variant="body2" sx={{ color: 'black' }}>
                         © {new Date().getFullYear()} GAMES. Creado por Ignacio Prieto.
                     </Typography>
 
@@ -55,7 +55,7 @@ const Footer = () => {
                     </Stack>
 
                     {/* Info Stripe */}
-                    <Typography variant="caption" sx={{ color: 'white', opacity: 0.6, fontStyle: 'italic' }}>
+                    <Typography variant="caption" sx={{ color: 'black', opacity: 0.9, fontStyle: 'italic' }}>
                         Pagos seguros con Stripe 🔒
                     </Typography>
                 </Stack>
