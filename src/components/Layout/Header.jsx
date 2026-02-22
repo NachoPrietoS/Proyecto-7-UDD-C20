@@ -22,7 +22,7 @@ export default function Header () {
     const [total, setTotal] = useState(0);
 
     useEffect(() => {
-        //getCart();
+        getCart();
     }, [currentUser]);
 
     useEffect(() => {

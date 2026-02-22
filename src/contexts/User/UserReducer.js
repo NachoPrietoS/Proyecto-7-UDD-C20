@@ -30,6 +30,21 @@ const UserReducer = (globalState, action) => {
                 ...globalState,
                 globalLoading: action.payload
             }
+        case "GET_CHECKOUT_SESSION":
+            return {
+                ...globalState,
+                sessionUrl: action.payload
+            }
+        case "GET_CART":
+            return {
+                ...globalState,
+                cart: action.payload
+            }
+        case "ADD_TO_CART":
+            return {
+                ...globalState,
+                cart: [...globalState.cart, action.payload]
+            }
         default:
             return globalState;
     }

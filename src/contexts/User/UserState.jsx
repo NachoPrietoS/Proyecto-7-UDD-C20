@@ -93,6 +93,63 @@ const UserState = (props) => {
         await axiosClient.put('/users/update-user', form);
     }
 
+    const getCheckoutSession = async (cart) => {
+        const token = localStorage.getItem('token');
+        if (token){
+            axiosClient.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        } else {
+            delete axiosClient.defaults.headers.common['Authorization'];
+        }
+        try {
+            const response = await axiosClient.get('/carts/createCheckoutSession');
+            dispatch({
+                type: "GET_CHECKOUT_SESSION",
+                payload: response.data.session_url
+            })
+        } catch (error) {
+            console.error(error);
+            return;
+        }
+    }
+
+    const getCart = async () => {
+        const token = localStorage.getItem('token');
+        if (token){
+            axiosClient.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        } else {
+            delete axiosClient.defaults.headers.common['Authorization'];
+        }
+        try {
+            const response = await axiosClient.get('/carts/get-cart');
+            const products = response.data.foundCart?.products || [];
+            dispatch({
+                type: "GET_CART",
+                payload: products
+            })
+        } catch (error) {
+            console.error(error);
+            return;
+        }
+    }
+
+    const addToCart = async (data) => {
+        const token = localStorage.getItem('token');
+        if (token){
+            axiosClient.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        } else {
+            delete axiosClient.defaults.headers.common['Authorization'];
+        }
+        try {
+            const response = await axiosClient.put('/carts/add-to-cart', { products : data });
+            await getCart();
+            console.log("Respuesta Backend:", response.data)
+            return response.data.msg;
+        } catch (error) {
+            console.error(error);
+            return;
+        }
+    }
+
     return (
         <UserContext.Provider
             value={{
@@ -106,7 +163,10 @@ const UserState = (props) => {
                 logoutUser,
                 verifyUser,
                 updateUser,
-                setLoading
+                setLoading,
+                getCheckoutSession,
+                getCart,
+                addToCart
             }}
         >
             {props.children}

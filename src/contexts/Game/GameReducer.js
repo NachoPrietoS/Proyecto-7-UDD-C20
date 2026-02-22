@@ -5,6 +5,11 @@ const GameReducer = (globalState, action) => {
                 ...globalState,
                 games: action.payload
             }
+        case "OBTENER_JUEGO":
+            return {
+                ...globalState,
+                currentGame: action.payload
+            }
         default:
             return globalState;
     }

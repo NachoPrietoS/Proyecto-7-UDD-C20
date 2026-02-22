@@ -8,6 +8,7 @@ const GameState = (props) => {
         games: [],
         currentGame: {
             _id: null,
+            idProd: "",
             title: "",
             description: "",
             price: "",
@@ -33,12 +34,20 @@ const GameState = (props) => {
         }
     }
 
+    const setCurrentGame = (gameData) => {
+        dispatch({
+            type: "OBTENER_JUEGO",
+            payload: gameData
+        })
+    }
+
     return (
         <GameContext.Provider
             value={{
                 games: globalState.games,
                 currentGame: globalState.currentGame,
-                getGames
+                getGames,
+                setCurrentGame
             }}
         >
             {props.children}
