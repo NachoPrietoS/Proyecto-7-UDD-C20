@@ -76,6 +76,13 @@ const UserState = (props) => {
         })
     }
 
+    const setLoading = (status) => {
+        dispatch({
+            type: "CHANGE_STATUS_LOADING",
+            payload: status
+    })
+}
+
     const updateUser = async (form) => {
         const token = localStorage.getItem('token');
         if(token) {
@@ -89,7 +96,7 @@ const UserState = (props) => {
     return (
         <UserContext.Provider
             value={{
-                currentUser: initialState.currentUser,
+                currentUser: globalState.currentUser,
                 cart: globalState.cart,
                 authStatus: globalState.authStatus,
                 sessionUrl: globalState.sessionUrl,
@@ -98,7 +105,8 @@ const UserState = (props) => {
                 loginUser,
                 logoutUser,
                 verifyUser,
-                updateUser
+                updateUser,
+                setLoading
             }}
         >
             {props.children}

@@ -1,5 +1,6 @@
 import { useContext, useState } from "react";
-import { useNavigate, Link as RouterLink } from "react-router-dom";
+// 1. Añadimos useLocation
+import { useNavigate, useLocation, Link as RouterLink } from "react-router-dom";
 import UserContext from "../../contexts/User/UserContext";
 import {
     Container, Box, Typography, TextField, Button,
@@ -12,6 +13,8 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 export default function Login() {
     const ctx = useContext(UserContext);
     const navigate = useNavigate();
+    // 2. Capturamos la localización actual
+    const location = useLocation();
     const { loginUser } = ctx;
 
     const [logUser, setLogUser] = useState({
@@ -33,7 +36,6 @@ export default function Login() {
         e.preventDefault();
         setErrorMsg("");
 
-        // Validación simple en el front
         if (!logUser.email.trim() || !logUser.password.trim()) {
             return setErrorMsg("Por favor, completa todos los campos.");
         }
@@ -41,16 +43,23 @@ export default function Login() {
         const res = await loginUser(logUser);
 
         if (res === true) {
-            // Si el UserState retorna true, el login fue exitoso
-            navigate("/");
+            // 3. LÓGICA DE REDIRECCIÓN INTELIGENTE
+            // Si existe 'from' en el state, vamos allá; si no, al home "/"
+            const destination = location.state?.from || "/";
+
+            // Redirigimos al destino original pasando de vuelta el objeto game si existía
+            navigate(destination, {
+                state: { game: location.state?.game },
+                replace: true
+            });
         } else {
-            // Si retorna false o un mensaje, lo mostramos
             setErrorMsg("Credenciales incorrectas. Inténtalo de nuevo.");
         }
     };
 
     return (
         <Container maxWidth="xs" sx={{ py: 10 }}>
+            {/* ... Resto de tu código JSX es idéntico ... */}
             <Paper
                 elevation={3}
                 sx={{
@@ -150,7 +159,6 @@ export default function Login() {
     );
 }
 
-// Reutilizamos tus estilos para mantener la consistencia (incluyendo el fix de autofill)
 const inputStyles = {
     "& .MuiOutlinedInput-root": {
         color: "white",

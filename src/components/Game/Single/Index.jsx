@@ -1,4 +1,6 @@
 import { useLocation, useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import UserContext from "../../../contexts/User/UserContext";
 import { Container, Grid, Typography, Box, Button, Chip, Divider } from "@mui/material";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
@@ -7,10 +9,24 @@ const SingleGame = () => {
     const location = useLocation();
     const navigate = useNavigate();
 
-    // Usamos el encadenamiento opcional para evitar errores si state es null
+    const userCtx = useContext(UserContext);
+    const { authStatus } = userCtx;
+
     const game = location?.state?.game;
 
-    // Si el usuario llega aquí sin pasar por el catálogo (ej: F5), lo devolvemos
+    const handleAddToCart = () => {
+        if (!authStatus) {
+            // REDIRECCIÓN INTELIGENTE: Guardamos la ruta actual y el objeto game
+            return navigate("/iniciar-sesion", { 
+                state: { 
+                    from: location.pathname, 
+                    game: game 
+                } 
+            });
+        }
+        console.log("Añadiendo al carrito:", game.title);
+    };
+
     if (!game) {
         return (
             <Container sx={{ py: 10, textAlign: 'center' }}>
@@ -33,7 +49,7 @@ const SingleGame = () => {
             </Button>
 
             <Grid container spacing={6}>
-                {/* Imagen del juego usando el campo 'img' de tu BBDD */}
+                {/* RESTAURADO: Usando 'size' para mantener tus proporciones originales */}
                 <Grid size={{ xs: 12, md: 6 }}>
                     <Box
                         component="img"
@@ -48,7 +64,6 @@ const SingleGame = () => {
                     />
                 </Grid>
 
-                {/* Información del juego */}
                 <Grid size={{ xs: 12, md: 6 }}>
                     <Chip
                         label={game.platform}
@@ -75,6 +90,7 @@ const SingleGame = () => {
                     <Button
                         variant="contained"
                         fullWidth
+                        onClick={handleAddToCart}
                         startIcon={<ShoppingCartIcon />}
                         sx={{
                             backgroundColor: '#28f5e8',
@@ -85,7 +101,7 @@ const SingleGame = () => {
                             '&:hover': { backgroundColor: '#1fcfc4' }
                         }}
                     >
-                        Añadir al Carrito
+                        {authStatus ? "Añadir al Carrito" : "Inicia sesión para comprar"}
                     </Button>
                 </Grid>
             </Grid>

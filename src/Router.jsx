@@ -8,6 +8,8 @@ import GameList from "./components/Game/List/Index";
 import SingleGame from "./components/Game/Single/Index";
 import UserState from "./contexts/User/UserState";
 import AuthRoute from "./routes/Auth";
+import PrivateRoute from "./routes/Private";
+import Profile from "./components/Profile";
 
 const Router = () => {
     return (
@@ -19,11 +21,10 @@ const Router = () => {
                             <Route index element={<Home />} />
                             <Route path="/games" element={<GameList />} />
                             <Route path="/games/:slug" element={<SingleGame />} />
-
                             <Route path="/registro" element={<Register />} />
-                            <Route 
-                            path="/iniciar-sesion" 
-                            element={<AuthRoute component={Login} />} />
+
+                            <Route path="/perfil" element={<PrivateRoute component={Profile} />} />
+                            <Route path="/iniciar-sesion" element={<AuthRoute component={Login} />} />
                         </Route>
                     </Routes>
                 </BrowserRouter>

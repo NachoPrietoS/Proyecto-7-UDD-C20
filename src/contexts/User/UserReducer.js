@@ -25,6 +25,11 @@ const UserReducer = (globalState, action) => {
                 authStatus: true,
                 currentUser: action.payload
             }
+        case "CHANGE_STATUS_LOADING":
+            return {
+                ...globalState,
+                globalLoading: action.payload
+            }
         default:
             return globalState;
     }

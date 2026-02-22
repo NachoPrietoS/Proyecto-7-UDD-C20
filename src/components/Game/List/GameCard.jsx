@@ -14,16 +14,31 @@ const GameCard = ({ game }) => {
                 transition: 'all 0.3s ease'
             }}
         >
-            {/* Contenedor de Imagen con el campo 'img' */}
-            <Box sx={{ position: 'relative' }}>
+            {/* 1. Contenedor de Imagen con Link */}
+            <Box 
+                component={Link} // Convertimos el Box en un Link
+                to={`/games/${game.slug}`} 
+                state={{ game }}
+                sx={{ 
+                    position: 'relative', 
+                    display: 'block', // Asegura que el link ocupe todo el espacio
+                    cursor: 'pointer',
+                    textDecoration: 'none'
+                }}
+            >
                 <CardMedia
                     component="img"
                     height="250"
-                    image={game.img} // <-- Ajustado a tu BBDD
+                    image={game.img}
                     alt={game.title}
-                    sx={{ objectFit: 'contain', p: 2 }} // 'contain' por si las portadas varían de tamaño
+                    sx={{ 
+                        objectFit: 'contain', 
+                        p: 2,
+                        transition: 'opacity 0.3s ease',
+                        '&:hover': { opacity: 0.8 } // Efecto visual al pasar el mouse
+                    }}
                 />
-                {/* Etiqueta de Plataforma con el campo 'platform' */}
+                
                 <Chip
                     label={game.platform}
                     size="small"
@@ -32,7 +47,8 @@ const GameCard = ({ game }) => {
                         top: 10,
                         right: 10,
                         backgroundColor: '#28f5e8',
-                        fontWeight: 'bold'
+                        fontWeight: 'bold',
+                        pointerEvents: 'none' // Para que el chip no interfiera con el clic del link
                     }}
                 />
             </Box>
@@ -42,7 +58,6 @@ const GameCard = ({ game }) => {
                     {game.title}
                 </Typography>
 
-                {/* Breve descripción limitada */}
                 <Typography variant="body2" sx={{ color: 'gray', mb: 2 }}>
                     {game.description ? `${game.description.substring(0, 50)}...` : "Sin descripción disponible"}
                 </Typography>
@@ -56,10 +71,15 @@ const GameCard = ({ game }) => {
                 <Button
                     fullWidth
                     component={Link}
-                    to={`/games/${game.slug}`} // <-- Usamos el slug para la ruta
-                    state={{ game }} // <-- Pasamos el objeto completo para evitar otra consulta
+                    to={`/games/${game.slug}`}
+                    state={{ game }}
                     variant="contained"
-                    sx={{ backgroundColor: '#28f5e8', color: '#18181a', fontWeight: 'bold' }}
+                    sx={{ 
+                        backgroundColor: '#28f5e8', 
+                        color: '#18181a', 
+                        fontWeight: 'bold',
+                        '&:hover': { backgroundColor: '#1fcfc4' }
+                    }}
                 >
                     Ver Detalles
                 </Button>
