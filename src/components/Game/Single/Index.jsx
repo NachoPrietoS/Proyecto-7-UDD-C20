@@ -7,6 +7,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
+import { formatCLP } from "../../../utils/formatCLP";
 
 const SingleGame = () => {
     const location = useLocation();
@@ -50,7 +51,7 @@ const SingleGame = () => {
             _id: game._id,
             name: game.title,
             price: game.price,
-            priceID: game.priceID,
+            priceId: game.priceId,
             quantity: 1,
             img: game.img,
             slug: game.slug
@@ -107,7 +108,7 @@ const SingleGame = () => {
                     </Typography>
 
                     <Typography variant="h4" sx={{ color: '#28f5e8', mb: 4, fontWeight: 'bold' }}>
-                        ${game.price.toLocaleString('es-CL')} {game.currency}
+                        {formatCLP(game.price)}
                     </Typography>
 
                     <Divider sx={{ backgroundColor: '#333', mb: 4 }} />

@@ -26,7 +26,9 @@ export default function Header () {
     }, [currentUser]);
 
     useEffect(() => {
-        const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0);
+        const totalItems = Array.isArray(cart) 
+    ? cart.reduce((acc, curr) => acc + curr.quantity, 0) 
+    : 0;
         setTotal(totalItems);
     }, [cart]);
 
@@ -46,7 +48,7 @@ export default function Header () {
                         <svg width="35" height="35" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M13 2L3 14H12L11 22L21 10H12L13 2Z" fill="#18181a" stroke="#18181a" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                         </svg>
-                        <Typography sx={{ fontWeight: 'bold', color: '#18181a', fontSize: '1.2rem', letterSpacing: '1px' }}>
+                        <Typography sx={{ fontWeight: 'bold', color: '#18181a', fontSize: '1.2rem', letterSpacing: '1px', display: { xs: 'none', md: 'block' } }}>
                             GAMESTORE
                         </Typography>
                     </Link>
@@ -62,7 +64,7 @@ export default function Header () {
                 )}
 
                 {/* 3. Lado Derecho: Acciones de Usuario */}
-                <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end', gap: 1, alignItems: 'center' }}>
+                <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end', gap: 1, alignItems: 'center', fontSize: { xs: '0.9rem', sm: '1.25rem' } }}>
                     {authStatus ? (
                         <>
                             <Button

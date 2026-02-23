@@ -1,5 +1,6 @@
 import { Card, CardContent, CardMedia, Typography, Button, CardActions, Chip, Box } from '@mui/material';
 import { Link } from 'react-router-dom';
+import { formatCLP } from '../../../utils/formatCLP';
 
 const GameCard = ({ game }) => {
     return (
@@ -63,7 +64,7 @@ const GameCard = ({ game }) => {
                 </Typography>
 
                 <Typography variant="h6" sx={{ color: '#28f5e8' }}>
-                    ${game.price.toLocaleString('es-CL')} {game.currency}
+                    {formatCLP(game.price)}
                 </Typography>
             </CardContent>
 

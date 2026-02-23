@@ -54,7 +54,7 @@ const UserState = (props) => {
 
     const verifyUser = async () => {
         const token = localStorage.getItem('token');
-        if(token) {
+        if (token) {
             axiosClient.defaults.headers.common['Authorization'] = `Bearer ${token}`;
         } else {
             delete axiosClient.defaults.headers.common['Authorization'];
@@ -80,32 +80,46 @@ const UserState = (props) => {
         dispatch({
             type: "CHANGE_STATUS_LOADING",
             payload: status
-    })
-}
+        })
+    }
 
     const updateUser = async (form) => {
         const token = localStorage.getItem('token');
-        if(token) {
-            axiosClient.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-        } else {
-            delete axiosClient.defaults.headers.common['Authorization'];
-        }
-        await axiosClient.put('/users/update-user', form);
-    }
-
-    const getCheckoutSession = async (cart) => {
-        const token = localStorage.getItem('token');
-        if (token){
+        if (token) {
             axiosClient.defaults.headers.common['Authorization'] = `Bearer ${token}`;
         } else {
             delete axiosClient.defaults.headers.common['Authorization'];
         }
         try {
-            const response = await axiosClient.get('/carts/createCheckoutSession');
+            // Añadimos el await para esperar la respuesta
+            await axiosClient.put('/users/update-user', form);
+            // ¡ESTO ES LO QUE TE FALTABA!
+            return true;
+        } catch (error) {
+            console.error("Error en la petición de actualización:", error.response?.data || error.message);
+            return false; // Si falla, devolvemos false para que el alert tenga sentido
+        }
+    }
+
+    const getCheckoutSession = async (cart) => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            axiosClient.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        } else {
+            delete axiosClient.defaults.headers.common['Authorization'];
+        }
+        try {
+            const response = await axiosClient.get('/carts/create-checkout-session');
             dispatch({
                 type: "GET_CHECKOUT_SESSION",
                 payload: response.data.session_url
             })
+
+            if (response.data.session_url) {
+                window.location.href = response.data.session_url;
+            } else {
+                console.error("El backend no envió session_url");
+            }
         } catch (error) {
             console.error(error);
             return;
@@ -114,7 +128,7 @@ const UserState = (props) => {
 
     const getCart = async () => {
         const token = localStorage.getItem('token');
-        if (token){
+        if (token) {
             axiosClient.defaults.headers.common['Authorization'] = `Bearer ${token}`;
         } else {
             delete axiosClient.defaults.headers.common['Authorization'];
@@ -134,13 +148,13 @@ const UserState = (props) => {
 
     const addToCart = async (data) => {
         const token = localStorage.getItem('token');
-        if (token){
+        if (token) {
             axiosClient.defaults.headers.common['Authorization'] = `Bearer ${token}`;
         } else {
             delete axiosClient.defaults.headers.common['Authorization'];
         }
         try {
-            const response = await axiosClient.put('/carts/add-to-cart', { products : data });
+            const response = await axiosClient.put('/carts/add-to-cart', { products: data });
             await getCart();
             console.log("Respuesta Backend:", response.data)
             return response.data.msg;
@@ -149,6 +163,24 @@ const UserState = (props) => {
             return;
         }
     }
+
+    const clearCart = async () => {
+        try {
+            const token = localStorage.getItem('token');
+            if (token) {
+                axiosClient.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+            }
+            // 1. Llamada al backend (la ruta que creamos antes)
+            await axiosClient.put('/carts/clear-cart');
+            // 2. Actualizamos el estado de Reducer para que el icono del carrito cambie a 0
+            dispatch({
+                type: "GET_CART", // O el type que uses para cargar el carrito
+                payload: []
+            });
+        } catch (error) {
+            console.error("Error al limpiar carrito:", error);
+        }
+    };
 
     return (
         <UserContext.Provider
@@ -166,7 +198,8 @@ const UserState = (props) => {
                 setLoading,
                 getCheckoutSession,
                 getCart,
-                addToCart
+                addToCart,
+                clearCart
             }}
         >
             {props.children}

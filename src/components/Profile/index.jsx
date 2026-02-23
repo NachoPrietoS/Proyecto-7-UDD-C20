@@ -1,19 +1,16 @@
 import { useContext, useEffect, useState } from "react";
 import UserContext from "../../contexts/User/UserContext";
-import { 
-    Container, Box, Typography, TextField, Button, 
-    Paper, Avatar, Grid, Divider, Alert 
+import {
+    Container, Box, Typography, TextField, Button,
+    Paper, Avatar, Grid, Divider, Alert, Snackbar
 } from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
 import SaveIcon from '@mui/icons-material/Save';
 
 export default function Profile() {
     const userCtx = useContext(UserContext);
-    const { updateUser } = userCtx;
-
-    // Extraemos los datos actuales del contexto
-    const { username, email, country, address, zipcode } = userCtx.currentUser;
-
+    const { updateUser, verifyUser } = userCtx; // Extraemos verifyUser para refrescar los datos
+    // 1. Estados para el formulario y feedback
     const [userForm, setUserForm] = useState({
         username: "",
         country: "",
@@ -21,41 +18,62 @@ export default function Profile() {
         zipcode: ""
     });
 
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    // 2. Cargamos los datos iniciales del contexto
     useEffect(() => {
-        const updateData = () => {
-            return setUserForm({
-                ...userForm,
-                username,
-                country,
-                address,
-                zipcode
-            });
-        };
-        updateData();
-    }, []);
-
-    const handleChange = async (event) => {
+        const { username, country, address, zipcode } = userCtx.currentUser;
         setUserForm({
-            ...userForm,
-            [event.target.name]: event.target.value,
+            username: username || "",
+            country: country || "",
+            address: address || "",
+            zipcode: zipcode || ""
         });
+    }, [userCtx.currentUser]); // Se dispara si el usuario cambia
+
+    const handleChange = (event) => {
+        const { name, value } = event.target;
+
+        if (name === "country") {
+            const onlyLetters = value.replace(/[^a-zA-Z\s]/g, "");
+            setUserForm({
+                ...userForm,
+                [name]: onlyLetters,
+            });
+        } else {
+            // Para los demás campos, se mantiene normal
+            setUserForm({
+                ...userForm,
+                [name]: value,
+            });
+        }
     };
 
     const sendData = async (event) => {
         event.preventDefault();
-        await updateUser(userForm);
+        try {
+            const success = await updateUser(userForm);
+            if (success) {
+                await verifyUser();
+                setOpenSnackbar(true);
+            } else {
+                // Aquí puedes usar un estado para mostrar una alerta roja
+                alert("Ese nombre de usuario ya está ocupado. Prueba con otro.");
+            }
+        } catch (error) {
+            console.error("Error al actualizar:", error);
+        }
     };
 
     return (
         <Container maxWidth="md" sx={{ py: 8 }}>
-            <Paper 
-                elevation={3} 
-                sx={{ 
-                    p: 4, 
-                    backgroundColor: '#18181a', 
-                    color: 'white', 
+            <Paper
+                elevation={3}
+                sx={{
+                    p: 4,
+                    backgroundColor: '#18181a',
+                    color: 'white',
                     border: '1px solid #333',
-                    borderRadius: 3 
+                    borderRadius: 3
                 }}
             >
                 <Box sx={{ display: 'flex', alignItems: 'center', mb: 4, gap: 2 }}>
@@ -126,9 +144,9 @@ export default function Profile() {
                             type="submit"
                             variant="contained"
                             startIcon={<SaveIcon />}
-                            sx={{ 
-                                backgroundColor: '#28f5e8', 
-                                color: '#18181a', 
+                            sx={{
+                                backgroundColor: '#28f5e8',
+                                color: '#18181a',
                                 fontWeight: 'bold',
                                 px: 4,
                                 py: 1.5,
@@ -140,6 +158,26 @@ export default function Profile() {
                     </Box>
                 </Box>
             </Paper>
+            <Snackbar
+                open={openSnackbar}
+                autoHideDuration={4000}
+                onClose={() => setOpenSnackbar(false)}
+                anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+            >
+                <Alert
+                    onClose={() => setOpenSnackbar(false)}
+                    severity="success"
+                    sx={{
+                        width: '100%',
+                        bgcolor: '#28f5e8', // Estilo Cyberpunk
+                        color: '#18181a',
+                        fontWeight: 'bold',
+                        '& .MuiAlert-icon': { color: '#18181a' }
+                    }}
+                >
+                    ¡PERFIL ACTUALIZADO EXITOSAMENTE!
+                </Alert>
+            </Snackbar>
         </Container>
     );
 }
@@ -151,7 +189,7 @@ const inputStyles = {
         "& fieldset": { borderColor: "#333" },
         "&:hover fieldset": { borderColor: "#28f5e8" },
         "&.Mui-focused fieldset": { borderColor: "#28f5e8" },
-        
+
     },
     "& .MuiInputLabel-root": { color: "gray" },
     "& .MuiInputLabel-root.Mui-focused": { color: "#28f5e8" },

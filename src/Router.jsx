@@ -10,6 +10,9 @@ import UserState from "./contexts/User/UserState";
 import AuthRoute from "./routes/Auth";
 import PrivateRoute from "./routes/Private";
 import Profile from "./components/Profile";
+import Checkout from "./components/Checkout";
+import Success from "./components/Success/Success";
+import Cancel from "./components/Cancel/Cancel";
 
 const Router = () => {
     return (
@@ -23,8 +26,11 @@ const Router = () => {
                             <Route path="/games/:slug" element={<SingleGame />} />
                             <Route path="/registro" element={<Register />} />
 
-                            <Route path="/perfil" element={<PrivateRoute component={Profile} />} />
                             <Route path="/iniciar-sesion" element={<AuthRoute component={Login} />} />
+                            <Route path="/perfil" element={<PrivateRoute component={Profile} />} />
+                            <Route path="/carrito" element={<PrivateRoute component={Checkout} />} />
+                            <Route path="/pago-exitoso/success" element={<PrivateRoute component={Success} />} />
+                            <Route path="/carrito/cancel" element={<PrivateRoute component={Cancel} />} />
                         </Route>
                     </Routes>
                 </BrowserRouter>

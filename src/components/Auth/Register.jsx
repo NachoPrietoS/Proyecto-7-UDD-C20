@@ -47,8 +47,8 @@ export default function Register() {
         }
 
         // B. Validar longitud del nombre de usuario
-        if (username.trim().length < 3) {
-            return setErrorMsg("El nombre de usuario debe tener al menos 3 caracteres");
+        if (username.trim().length < 6) {
+            return setErrorMsg("El nombre de usuario debe tener al menos 6 caracteres");
         }
 
         // C. Validar formato de Email
