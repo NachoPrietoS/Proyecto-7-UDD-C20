@@ -25,12 +25,11 @@
                                 <Route path="/games" element={<GameList />} />
                                 <Route path="/games/:slug" element={<SingleGame />} />
                                 <Route path="/registro" element={<Register />} />
-
                                 <Route path="/iniciar-sesion" element={<AuthRoute component={Login} />} />
                                 <Route path="/perfil" element={<PrivateRoute component={Profile} />} />
                                 <Route path="/carrito" element={<PrivateRoute component={Checkout} />} />
-                                <Route path="/pago-exitoso/success" element={<PrivateRoute component={Success} />} />
-                                <Route path="/pago-cancelado/cancel" element={<PrivateRoute component={Cancel} />} />
+                                <Route path="/pago/success" element={<PrivateRoute component={Success} />} />
+                                <Route path="/pago/cancel" element={<PrivateRoute component={Cancel} />} />
                             </Route>
                         </Routes>
                     </BrowserRouter>
