@@ -29,8 +29,8 @@
                                 <Route path="/iniciar-sesion" element={<AuthRoute component={Login} />} />
                                 <Route path="/perfil" element={<PrivateRoute component={Profile} />} />
                                 <Route path="/carrito" element={<PrivateRoute component={Checkout} />} />
-                                <Route path="/carrito/success" element={<PrivateRoute component={Success} />} />
-                                <Route path="/carrito/cancel" element={<PrivateRoute component={Cancel} />} />
+                                <Route path="/pago-exitoso/success" element={<PrivateRoute component={Success} />} />
+                                <Route path="/pago-cancelado/cancel" element={<PrivateRoute component={Cancel} />} />
                             </Route>
                         </Routes>
                     </BrowserRouter>
