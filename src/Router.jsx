@@ -25,11 +25,12 @@
                                 <Route path="/games" element={<GameList />} />
                                 <Route path="/games/:slug" element={<SingleGame />} />
                                 <Route path="/registro" element={<Register />} />
+                                <Route path="/cancel" element={<Cancel />} />
                                 <Route path="/iniciar-sesion" element={<AuthRoute component={Login} />} />
                                 <Route path="/perfil" element={<PrivateRoute component={Profile} />} />
                                 <Route path="/carrito" element={<PrivateRoute component={Checkout} />} />
                                 <Route path="/success" element={<PrivateRoute component={Success} />} />
-                                <Route path="/cancel" element={<PrivateRoute component={Cancel} />} />
+                                
                             </Route>
                         </Routes>
                     </BrowserRouter>
