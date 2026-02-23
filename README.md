@@ -39,7 +39,6 @@ El objetivo principal es ofrecer una experiencia de usuario fluida con una esté
 Sigue estos pasos para ejecutar el proyecto en tu máquina:
 
 ### 1. Clonar el repositorio
-```bash
 git clone [https://github.com/nachoprietos/proyecto-7-udd-c20.git](https://github.com/nachoprietos/proyecto-7-udd-c20.git)
 cd proyecto-7-udd-c20
 
