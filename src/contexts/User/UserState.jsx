@@ -91,13 +91,11 @@ const UserState = (props) => {
             delete axiosClient.defaults.headers.common['Authorization'];
         }
         try {
-            // Añadimos el await para esperar la respuesta
             await axiosClient.put('/users/update-user', form);
-            // ¡ESTO ES LO QUE TE FALTABA!
             return true;
         } catch (error) {
             console.error("Error en la petición de actualización:", error.response?.data || error.message);
-            return false; // Si falla, devolvemos false para que el alert tenga sentido
+            return false;
         }
     }
 
